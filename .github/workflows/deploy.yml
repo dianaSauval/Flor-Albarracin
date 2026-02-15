@@ -7,33 +7,25 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, flor]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build project
         run: npm run build
 
-      - name: Deploy to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: 89.116.23.243
-          username: root
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
-          source: "dist/*"
-          target: "/var/www/soyfloralbarracin.com"
-          timeout: 120s
-          command_timeout: 10m
-          overwrite: true
-          strip_components: 1
+      - name: Deploy dist to web root
+        run: |
+          sudo mkdir -p /var/www/soyfloralbarracin.com
+          sudo rsync -av --delete dist/ /var/www/soyfloralbarracin.com/

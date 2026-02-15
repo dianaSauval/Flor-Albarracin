@@ -1,0 +1,304 @@
+.fa-contact {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  padding: clamp(56px, 6vw, 96px) 0;
+  min-height: 520px; /* importante: garantiza altura para que el fondo exista */
+
+  /* variables para el parallax */
+  --bg-y: 0px;
+    background-image: var(--contact-bg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 30%;
+  background-attachment: fixed;
+}
+
+/* Fondo */
+.fa-contact::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  /* ❌ NO background acá */
+  background: transparent;
+
+  /* Si querés conservar el look, aplicá filtros con un overlay suave */
+  /* (los filtros reales sobre background no existen, por eso antes lo hacíamos en ::after) */
+}
+
+
+/* Overlay */
+.fa-contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    radial-gradient(900px 520px at 70% 28%, rgba(255, 255, 255, 0.18), transparent 62%),
+    linear-gradient(180deg, rgba(10, 10, 12, 0.46), rgba(10, 10, 12, 0.28));
+}
+
+
+/* Contenido arriba */
+.fa-contact__content {
+  position: relative;
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+
+
+
+/* Contenido arriba de todo */
+.fa-contact__content {
+  position: relative;      /* <-- agregar */
+  z-index: 2;              /* <-- agregar */
+  color: rgba(255, 255, 255, 0.92);
+}
+
+
+.fa-contact__header {
+  max-width: 760px;
+  margin-bottom: clamp(18px, 3vw, 28px);
+}
+
+.fa-contact__title {
+  font-size: clamp(34px, 4.6vw, 54px);
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.fa-contact__subtitle {
+  margin: 0;
+  font-family: var(--font-subtitle, system-ui);
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.6;
+  opacity: 0.92;
+}
+
+/* Grid */
+.fa-contact__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 2.4vw, 22px);
+  margin-top: clamp(18px, 3vw, 26px);
+}
+
+/* Cards */
+.fa-contact__card {
+  background: rgba(20, 20, 24, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: clamp(16px, 2.6vw, 22px);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.fa-contact__cardHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.fa-contact__cardTitle {
+  margin: 0;
+  font-family: var(--font-subtitle, system-ui);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.95;
+}
+
+.fa-contact__hint {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+/* Redes: fila de “medallones” */
+.fa-contact__socialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+.fa-contact__social {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  border-radius: 18px;
+
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+
+  transform: translateY(0);
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+  overflow: hidden;
+}
+
+.fa-contact__socialGlow {
+  position: absolute;
+  inset: -40%;
+  opacity: 0;
+  transform: translate3d(-15%, 20%, 0) rotate(12deg);
+  transition: opacity 240ms ease, transform 240ms ease;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.30), transparent 55%);
+  filter: blur(2px);
+}
+
+.fa-contact__socialIcon {
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.92);
+  transform: translateY(0) scale(1);
+  transition: transform 240ms ease, filter 240ms ease;
+  z-index: 1;
+}
+
+.fa-contact__socialLabel {
+  position: absolute;
+  bottom: 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.80;
+  transform: translateY(6px);
+  transition: transform 240ms ease, opacity 240ms ease;
+  z-index: 1;
+}
+
+/* Hover: sube, brilla, “respira” */
+.fa-contact__social:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.fa-contact__social:hover .fa-contact__socialGlow {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+}
+
+.fa-contact__social:hover .fa-contact__socialIcon {
+  transform: translateY(-2px) scale(1.06);
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+}
+
+.fa-contact__social:hover .fa-contact__socialLabel {
+  transform: translateY(0);
+  opacity: 0.92;
+}
+
+/* Mini “shine” animado */
+.fa-contact__social::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.18) 45%,
+    transparent 55%
+  );
+  transform: translateX(-60%);
+  opacity: 0;
+}
+
+.fa-contact__social:hover::after {
+  opacity: 1;
+  animation: faShine 900ms ease;
+}
+
+@keyframes faShine {
+  0% { transform: translateX(-60%); }
+  100% { transform: translateX(60%); }
+}
+
+/* Manager chips */
+.fa-contact__managerName {
+  margin: 0 0 14px;
+  font-size: 18px;
+  opacity: 0.95;
+}
+
+.fa-contact__actions {
+  display: grid;
+  gap: 10px;
+}
+
+.fa-contact__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  text-decoration: none;
+  color: #0b0b0f;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.fa-contact__chip:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.02);
+}
+
+.fa-contact__chip--ghost {
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.fa-contact__fine {
+  margin: 14px 0 0;
+  font-size: 13px;
+  opacity: 0.72;
+}
+
+.fa-contact__emailUnderSocials {
+  margin-top: 14px;
+  display: grid;
+}
+
+
+/* Responsive */
+@media (max-width: 860px) {
+  .fa-contact__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fa-contact__social {
+    width: 82px;
+    height: 82px;
+    border-radius: 16px;
+  }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .fa-contact__bg { transform: none !important; }
+  .fa-contact__social,
+  .fa-contact__socialGlow,
+  .fa-contact__socialIcon,
+  .fa-contact__socialLabel,
+  .fa-contact__chip {
+    transition: none !important;
+    animation: none !important;
+  }
+}

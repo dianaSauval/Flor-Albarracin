@@ -1,0 +1,42 @@
+.khl {
+  position: relative;
+  height: var(--khl-h, 80vh);
+  border-radius: var(--khl-radius, var(--radius-lg));
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  background: rgba(0,0,0,0.2);
+}
+
+.khl__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  filter: saturate(1.02) contrast(1.02);
+}
+
+/* Overlay SOLO dentro del bloque */
+.khl__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--khl-overlay, var(--accent));
+  opacity: var(--khl-overlay-opacity, 1);
+  z-index: 2;
+
+  /* estado final (cubre todo) */
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    0 100%,
+    0 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    0 100%,
+    100% 100%,
+    100% 0%
+  );
+}

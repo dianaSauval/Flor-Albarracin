@@ -1,0 +1,27 @@
+.fa-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* vidrio teatral */
+  background: rgba(15, 11, 12, 0.62);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.fa-header__inner {
+  width: min(var(--container), 92%);
+  margin: 0 auto;
+  padding: 12px 0;
+}
+
+/* glow sutil (dorado) */
+.fa-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(700px 120px at 50% 0%, rgba(210, 162, 76, 0.18), transparent 60%),
+    linear-gradient(180deg, rgba(210, 162, 76, 0.06), transparent 55%);
+  opacity: 0.9;
+}

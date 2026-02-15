@@ -1,0 +1,195 @@
+.mmCard {
+  position: relative;
+  overflow: visible;
+}
+
+/* Frame interno */
+.mmCard__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+    display: flex;
+  flex-direction: column;
+}
+
+/* Fondo teatral SOLO en featured */
+.mmCard--featured .mmCard__frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(520px 340px at 18% 28%, rgba(210, 162, 76, 0.16), transparent 60%),
+    radial-gradient(520px 360px at 70% 12%, rgba(177, 24, 43, 0.30), transparent 62%),
+    radial-gradient(520px 420px at 92% 78%, rgba(102, 20, 27, 0.42), transparent 65%),
+    linear-gradient(180deg, rgba(15, 11, 12, 0.35), rgba(15, 11, 12, 0.92));
+
+  filter: saturate(1.12) contrast(1.08);
+}
+
+/* Contenido arriba del fondo */
+.mmCard__top,
+.mmCard__body {
+  position: relative;
+  z-index: 1;
+}
+
+.mmCard__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mmCard__title {
+  font-family: var(--font-title);
+  font-size: 22px;
+  margin: 0;
+}
+
+.mmCard__subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+/* Por defecto, sin ratio (Spotify y otros) */
+.mmCard__embed { aspect-ratio: auto; }
+
+/* YouTube lo fuerza a 16:9 */
+.mmCard--youtube .mmCard__embed { aspect-ratio: 16 / 9; }
+
+
+.mmCard__embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.mmCard__placeholder {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: rgba(0,0,0,0.25);
+  border: 1px dashed rgba(210,162,76,0.28);
+  color: var(--text-2);
+}
+
+/* ❌ Anulamos el movimiento de la card en hover */
+.mmCard .card:hover {
+  transform: none;
+}
+
+/* ✨ Hover elegante: luz + contraste */
+.mmCard .card:hover {
+  box-shadow:
+    0 0 0 1px rgba(210, 162, 76, 0.28),
+    0 18px 42px rgba(0, 0, 0, 0.55);
+}
+
+/* Un poquito más de brillo teatral */
+.mmCard--featured .card:hover::before {
+  filter: saturate(1.25) contrast(1.12);
+}
+
+
+/* 👤 Ella saliendo de la card */
+/* 👤 Ella saliendo de la card (anclada al piso) */
+.mmCard__cutout {
+  position: absolute;
+
+  /* ✅ “piso”: siempre pegada al borde inferior */
+  bottom: -10px;          /* probá -6px / -10px según tu gusto */
+  top: auto;
+
+  /* ✅ que sobresalga más por el lateral, no por arriba */
+  right: -34px;
+  left: auto;
+
+  width: min(300px, 40%);
+  z-index: 5;
+  pointer-events: none;
+
+  /* Para que nunca “flote” por altura rara */
+  display: flex;
+  align-items: flex-end;
+
+  filter:
+    drop-shadow(0 22px 52px rgba(0,0,0,0.65))
+    drop-shadow(0 0 18px rgba(210,162,76,0.14));
+}
+
+.mmCard__cutout img {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  /* ✅ pisa el borde */
+  transform: translateY(2px) scale(1);
+}
+
+.mmCard__cutout::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;           /* la sombra cae dentro del borde */
+  right: 40px;           /* ajusta si la querés más centrada */
+  width: 170px;
+  height: 22px;
+  background: radial-gradient(closest-side, rgba(0,0,0,0.45), transparent 70%);
+  filter: blur(2px);
+  opacity: 0.7;
+}
+
+/* 🎧 Spotify: que el embed ocupe todo el alto de la card */
+
+/* 🎥 YouTube: 16:9 */
+.mmCard--youtube .mmCard__embed {
+  aspect-ratio: 16 / 9;
+}
+
+/* 🎧 Spotify: panel rojo que llena el área */
+.mmCard--spotify .mmCard__embed {
+  aspect-ratio: auto;        /* importante */
+  flex: 1;
+  display: grid;
+  place-items: center;
+
+  padding: 18px;
+  border-radius: var(--radius-md);
+
+  background:
+    radial-gradient(420px 260px at 30% 20%, rgba(241, 209, 138, 0.12), transparent 60%),
+    radial-gradient(420px 300px at 80% 80%, rgba(102, 20, 27, 0.30), transparent 65%),
+    linear-gradient(135deg, rgba(177, 24, 43, 0.85), rgba(127, 15, 32, 0.88));
+
+  border: 1px solid rgba(210,162,76,0.22);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+
+/* El iframe (widget) grande y centrado */
+.mmCard--spotify .mmCard__embed iframe {
+  width: 100%;
+  max-width: 720px;
+  height: 352px;  /* subí a 420 si querés más “panel” */
+  border-radius: 14px;
+  border: 0;
+  background: transparent;
+}
+
+/* Para que el body pueda crecer */
+.mmCard--spotify .mmCard__body {
+  flex: 1;
+  display: flex;
+}
+
+
+
+/* Mobile */
+@media (max-width: 520px) {
+  .mmCard__cutout {
+    display: none;
+  }
+}

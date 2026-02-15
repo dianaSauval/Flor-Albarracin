@@ -1,0 +1,304 @@
+.fa-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+/* Brand */
+.fa-nav__brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform var(--t-fast), opacity var(--t-fast);
+}
+
+.fa-nav__brand:hover {
+  transform: translateY(-1px);
+}
+
+.fa-nav__brandTitle {
+  font-size: 22px;
+  color: var(--text);
+}
+
+.fa-nav__brandTitle--accent {
+  color: var(--accent);
+  text-shadow: 0 12px 30px rgba(210, 162, 76, 0.18);
+}
+
+/* Links (desktop) */
+.fa-nav__links {
+  list-style: none;
+  display: none;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.fa-nav__link {
+  position: relative;
+  text-decoration: none;
+  font-family: var(--font-subtitle);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  padding: 10px 6px;
+  transition: color var(--t), transform var(--t-fast);
+}
+
+.fa-nav__link:hover {
+  color: var(--text);
+}
+
+/* subrayado dorado */
+.fa-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(210, 162, 76, 0.85), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--t);
+}
+.fa-nav__link:hover::after { transform: scaleX(1); }
+
+/* Actions */
+.fa-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Booking button tweak (opcional) */
+.fa-nav__booking {
+  box-shadow: var(--btn-glow);
+}
+.fa-nav__booking:hover {
+  box-shadow: var(--btn-glow-hover);
+}
+
+/* =========================
+   Burger (mobile/tablet)
+========================= */
+
+.fa-nav__burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 162, 76, 0.22);
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform var(--t-fast), border-color var(--t), background var(--t);
+}
+
+.fa-nav__burger:hover {
+  transform: translateY(-1px);
+  border-color: rgba(210, 162, 76, 0.38);
+  background: rgba(0,0,0,0.26);
+}
+
+.fa-nav__burger:active {
+  transform: translateY(0);
+}
+
+.fa-nav__burgerLines {
+  display: grid;
+  gap: 5px;
+}
+
+.fa-nav__burgerLines span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 99px;
+  background: rgba(244, 236, 233, 0.88);
+  transition: transform 220ms var(--ease), opacity 220ms var(--ease);
+}
+
+/* animación a X */
+.fa-nav__burger.is-open .fa-nav__burgerLines span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.fa-nav__burger.is-open .fa-nav__burgerLines span:nth-child(2) {
+  opacity: 0;
+}
+.fa-nav__burger.is-open .fa-nav__burgerLines span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* =========================
+   Overlay + Panel
+========================= */
+
+.fa-nav__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 11, 12, 0.62);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms var(--ease);
+  z-index: 140;
+}
+
+.fa-nav__overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Panel side-drawer */
+.fa-nav__panel {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: min(92vw, 360px);
+  max-height: calc(100vh - 20px);
+  overflow: auto;
+  z-index: 150;
+
+  border-radius: 22px;
+  border: 1px solid rgba(210, 162, 76, 0.22);
+  background:
+    radial-gradient(520px 320px at 30% 10%, rgba(210, 162, 76, 0.12), transparent 60%),
+    radial-gradient(520px 320px at 80% 70%, rgba(177, 24, 43, 0.22), transparent 62%),
+    rgba(15, 11, 12, 0.92);
+
+  box-shadow: 0 26px 72px rgba(0,0,0,0.65);
+  transform: translateY(-6px) translateX(8px) scale(0.98);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 260ms var(--ease), opacity 240ms var(--ease);
+}
+
+.fa-nav__panel.is-open {
+  transform: translateY(0) translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Panel header */
+.fa-nav__panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(210, 162, 76, 0.14);
+}
+
+.fa-nav__panelTitle {
+  font-family: var(--font-subtitle);
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+.fa-nav__panelClose {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 162, 76, 0.22);
+  background: rgba(0,0,0,0.18);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform var(--t-fast), border-color var(--t), background var(--t);
+}
+
+.fa-nav__panelClose:hover {
+  transform: translateY(-1px);
+  border-color: rgba(210, 162, 76, 0.38);
+  background: rgba(0,0,0,0.26);
+}
+
+/* Links in panel */
+.fa-nav__panelLinks {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.fa-nav__panelLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  text-decoration: none;
+  padding: 12px 12px;
+  border-radius: 16px;
+
+  border: 1px solid rgba(210, 162, 76, 0.16);
+  background: rgba(0,0,0,0.18);
+
+  font-family: var(--font-subtitle);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(244, 236, 233, 0.86);
+
+  transition: transform var(--t-fast), border-color var(--t), background var(--t);
+}
+
+.fa-nav__panelLink:hover {
+  transform: translateY(-1px);
+  border-color: rgba(210, 162, 76, 0.32);
+  background: rgba(0,0,0,0.26);
+}
+
+.fa-nav__chev {
+  color: rgba(210, 162, 76, 0.85);
+  font-size: 18px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+/* Footer */
+.fa-nav__panelFooter {
+  padding: 12px 14px 14px;
+  border-top: 1px solid rgba(210, 162, 76, 0.14);
+}
+
+.fa-nav__panelBtn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* =========================
+   Breakpoints
+========================= */
+
+/* Desktop: mostramos links, ocultamos burger */
+@media (min-width: 960px) {
+  .fa-nav__links { display: flex; }
+  .fa-nav__burger { display: none; }
+}
+
+/* Mobile/tablet: links ocultos, burger visible */
+@media (max-width: 959px) {
+  .fa-nav__actions .btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}

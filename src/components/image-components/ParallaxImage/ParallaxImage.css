@@ -1,0 +1,87 @@
+.fa-parallaxImg {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: var(--pi-h, 70vh);
+  min-height: var(--pi-minh, 420px);
+  border-radius: var(--pi-radius, 22px);
+
+  background-image: var(--pi-bg);
+  background-size: var(--pi-fit, cover);
+  background-repeat: no-repeat;
+  background-position: var(--pi-pos, center 30%);
+  background-attachment: fixed;
+}
+
+.fa-parallaxImg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  backdrop-filter: saturate(var(--pi-sat, 1.22)) contrast(var(--pi-con, 1.08))
+    brightness(var(--pi-bri, 1.03));
+  -webkit-backdrop-filter: saturate(var(--pi-sat, 1.22))
+    contrast(var(--pi-con, 1.08)) brightness(var(--pi-bri, 1.03));
+}
+
+.fa-parallaxImg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  opacity: var(--pi-boost, 0.95);
+  background:
+    radial-gradient(900px 520px at 30% 20%, rgba(255, 120, 170, 0.12), transparent 55%),
+    radial-gradient(900px 520px at 80% 60%, rgba(255, 210, 120, 0.10), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+.fa-parallaxImg__content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Solo para ese ParallaxImage */
+.fa-parallax--piano {
+  --pi-pos-m: center 38%;
+  --pi-h-m: 44vh;
+  --pi-minh-m: 280px;
+}
+/* 🎵 Parallax acordeón – ajuste fino SOLO para esta imagen */
+.fa-parallax--accordion {
+  /* desktop: se mantiene cover */
+}
+
+/* Mobile: mostrar imagen completa */
+@media (max-width: 820px) {
+  .fa-parallax--accordion {
+    --pi-fit-m: contain;
+    --pi-pos-m: center center;
+
+    /* Ajuste rápido */
+    --pi-h-m: 30vh;
+    --pi-minh-m: 240px;
+  }
+}
+
+
+
+/* ✅ Mobile: mismo efecto, solo sizing/encuadre */
+@media (max-width: 820px) {
+  .fa-parallaxImg {
+    height: var(--pi-h-m, 48vh);
+    min-height: var(--pi-minh-m, 300px);
+
+    background-position: var(--pi-pos-m, var(--pi-pos, center 35%));
+    background-size: var(--pi-fit-m, var(--pi-fit, cover));
+
+    /* NO tocamos el efecto */
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+}
+

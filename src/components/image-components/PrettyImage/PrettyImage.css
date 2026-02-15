@@ -1,0 +1,146 @@
+.pi {
+  padding: 0 !important; /* apaga padding global de section */
+  margin: clamp(22px, 4.5vw, 52px) 0 clamp(34px, 6vw, 80px);
+}
+
+/* si bleed: ocupa todo el ancho real */
+.pi--bleed .pi__inner {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.pi__inner {
+  /* cuando NO hay bleed, le sumamos container desde JSX */
+}
+
+.pi__wrap {
+  /* Layout: centra y limita tamaño de manera adaptable */
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 1100px);
+  margin-inline: auto;
+
+  /* Alto adaptable: vos lo controlás con height */
+  height: var(--pi-h, 70vh);
+  max-height: 820px;
+  min-height: 280px;
+
+  /* IMPORTANTE: sin fondo, sin borde, sin caja visible */
+  background: transparent;
+}
+
+/* Imagen flotante */
+.pi__img {
+  width: min(100%, var(--pi-w, 920px));
+  height: 100%;
+  display: block;
+  margin-inline: auto;
+  border-radius: var(--pi-radius, 22px);
+
+  /* Sin marco detrás: solo sombra + un toque pro */
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.55),
+    0 10px 26px rgba(0, 0, 0, 0.35);
+  transform: translateZ(0);
+
+  /* Para que se sienta “premium” sin caja */
+  outline: 1px solid rgba(255, 255, 255, 0.06);
+  outline-offset: -1px;
+}
+
+.pi__img.is-contain {
+  object-fit: contain;
+}
+.pi__img.is-cover {
+  object-fit: cover;
+}
+
+/* Overlay opcional (si lo querés MUY suave) */
+.pi__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: var(--pi-radius, 22px);
+  background: radial-gradient(
+    60% 70% at 55% 35%,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.22)
+  );
+}
+
+/* Reveal al aparecer */
+.pi__wrap.is-animated {
+  opacity: 0;
+  transform: translateY(14px) scale(0.995);
+  transition:
+    opacity 700ms ease,
+    transform 800ms ease;
+}
+
+.pi__wrap.is-animated.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Float sutil (solo cuando ya es visible) */
+.pi__wrap.is-animated.is-visible .pi__img {
+  animation: pi-float 6.5s ease-in-out infinite;
+}
+
+@keyframes pi-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .pi__wrap.is-animated,
+  .pi__wrap.is-animated.is-visible .pi__img {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pi__wrap {
+    height: auto;       /* 🔥 clave */
+    min-height: 0;      /* 🔥 clave */
+    width: 100%;
+  }
+
+  .pi__img {
+    height: auto;       /* 🔥 que no herede 100% */
+    max-height: 65vh;   /* opcional, límite elegante */
+    border-radius: 18px;
+  }
+}
+
+
+@media (max-width: 420px) {
+  .pi__wrap {
+    height: auto;      /* ✅ no fuerces vh */
+    min-height: 0;     /* ✅ */
+  }
+
+  .pi__img {
+    max-height: 56vh;  /* ✅ un límite un poco menor */
+  }
+}
+
+
+
+@media (max-width: 520px) {
+  .pi {
+    margin: 18px 0 24px; /* arriba | costados | abajo */
+  }
+}

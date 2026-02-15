@@ -1,0 +1,215 @@
+.dates {
+  position: relative;
+}
+
+/* Head igual, pero un toque más “luz” */
+.dates__head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* Grupo por mes: más teatral (glow radial + borde dorado leve) */
+.dates__group {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      520px 220px at 18% 18%,
+      rgba(210, 162, 76, 0.14),
+      transparent 62%
+    ),
+    radial-gradient(
+      620px 260px at 82% 78%,
+      rgba(177, 24, 43, 0.18),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(27, 20, 23, 0.62), rgba(36, 27, 31, 0.38));
+
+  border: 1px solid rgba(210, 162, 76, 0.22);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* una “línea” fina arriba estilo ticket */
+.dates__group::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 10px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(210, 162, 76, 0),
+    rgba(210, 162, 76, 0.35),
+    rgba(210, 162, 76, 0)
+  );
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.dates__month {
+  margin: 6px 0 10px;
+  font-family: var(--font-subtitle);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* Lista */
+.dates__listWrap {
+  display: grid;
+  gap: 18px;
+}
+
+.dates__list {
+  display: grid;
+  gap: 10px;
+}
+
+.dates__item {
+  list-style: none;
+}
+
+/* Link: más brillo, más “ticket” */
+.dates__link {
+  display: block;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(210, 162, 76, 0.18);
+
+  background:
+    radial-gradient(
+      420px 120px at 20% 10%,
+      rgba(241, 209, 138, 0.1),
+      transparent 60%
+    ),
+    rgba(244, 236, 233, 0.04);
+
+  padding: 12px 12px;
+  transition:
+    transform var(--t-fast),
+    border-color var(--t),
+    background var(--t),
+    box-shadow var(--t),
+    filter var(--t);
+}
+
+.dates__link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(210, 162, 76, 0.34);
+  background:
+    radial-gradient(
+      480px 140px at 20% 0%,
+      rgba(241, 209, 138, 0.14),
+      transparent 62%
+    ),
+    rgba(244, 236, 233, 0.06);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+  filter: saturate(1.05);
+}
+
+.dates__link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+}
+
+/* Primera línea */
+.dates__mainRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dates__main {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* “días” un poquito menos importante */
+.dates__days {
+  color: rgba(244, 236, 233, 0.92);
+}
+
+/* Dorado: hora y venue */
+.dates__time {
+  color: var(--accent-2);
+  text-shadow: 0 10px 24px rgba(210, 162, 76, 0.18);
+}
+
+.dates__venue {
+  color: var(--accent);
+  text-shadow: 0 10px 24px rgba(210, 162, 76, 0.16);
+}
+
+/* separadores */
+.dates__dot,
+.dates__dash {
+  color: rgba(244, 236, 233, 0.45);
+}
+
+/* Flechita discreta */
+.dates__arrow {
+  flex: 0 0 auto;
+  color: rgba(241, 209, 138, 0.9);
+  font-size: 14px;
+  transform: translateY(-1px);
+}
+
+/* Segunda línea */
+.dates__subRow {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Icono ubicación */
+.dates__pin {
+  color: rgba(241, 209, 138, 0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(1px);
+}
+
+.dates__addr {
+  color: var(--text-2);
+}
+
+.dates__sep {
+  opacity: 0.6;
+}
+
+/* Responsive */
+@media (min-width: 900px) {
+  .dates__group {
+    padding: 16px;
+  }
+  .dates__link {
+    padding: 14px 14px;
+  }
+  .dates__main {
+    font-size: 17px;
+  }
+
+
+}
+
+@media (max-width: 360px) {
+  .dates__main {
+    font-size: 15px;
+  }
+
+}

@@ -1,0 +1,125 @@
+import { useEffect, useRef } from "react";
+import "./ParallaxImage.css";
+
+export default function ParallaxImage({
+  image,
+  fit = "cover",
+  height = "70vh",
+  minHeight = "420px",
+  position = "center 30%",
+  radius = "22px",
+  saturation = 1.22,
+  contrast = 1.08,
+  brightness = 1.03,
+  boostOpacity = 0.95,
+  className = "",
+  mobileStrength = 1, // <- 1 = “como fixed”; podés bajar a 0.8 si querés más suave
+  children,
+}) {
+  const ref = useRef(null);
+  const raf = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const prefersReduced =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReduced) return;
+
+    // Solo lo activamos en mobile/tablet (donde fixed suele fallar)
+    const mq = window.matchMedia("(max-width: 820px)");
+    if (!mq.matches) return;
+
+    let elTop = 0;
+
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      elTop = rect.top + window.scrollY; // top absoluto en página
+    };
+
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+    const update = () => {
+      raf.current = null;
+
+      const rect = el.getBoundingClientRect();
+      const h = rect.height || 1;
+
+      // “cuánto scrolleé desde que empezó este bloque”
+      const scrolledPast = window.scrollY - elTop;
+
+      // Esto replica el comportamiento fixed:
+      // al bajar 100px, el elemento sube 100px → la imagen debe bajar 100px dentro del contenedor
+      const raw = scrolledPast * mobileStrength;
+
+      // Limitamos para que no se vean bordes (porque el bg tiene inset negativo)
+      const maxShift = h * 0.28; // 28% suele ser seguro y se siente fuerte
+      const y = clamp(raw, -maxShift, maxShift);
+
+      el.style.setProperty("--pi-y", `${y.toFixed(2)}px`);
+    };
+
+    const onScroll = () => {
+      if (!raf.current) raf.current = requestAnimationFrame(update);
+    };
+
+    measure();
+    update();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", () => {
+      measure();
+      onScroll();
+    });
+
+    // Por si el breakpoint cambia mientras estás en la página
+    const onMqChange = () => {
+      if (!mq.matches) {
+        el.style.removeProperty("--pi-y");
+        window.removeEventListener("scroll", onScroll);
+      } else {
+        measure();
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+      }
+    };
+    mq.addEventListener?.("change", onMqChange);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      mq.removeEventListener?.("change", onMqChange);
+      if (raf.current) cancelAnimationFrame(raf.current);
+      raf.current = null;
+    };
+  }, [mobileStrength]);
+
+  return (
+    <section
+      ref={ref}
+      className={`fa-parallaxImg ${className}`}
+      aria-label="Imagen con efecto parallax"
+      style={{
+        "--pi-bg": `url(${image})`,
+        "--pi-fit": fit,
+        "--pi-h": height,
+        "--pi-minh": minHeight,
+        "--pi-pos": position,
+        "--pi-radius": radius,
+        "--pi-sat": saturation,
+        "--pi-con": contrast,
+        "--pi-bri": brightness,
+        "--pi-boost": boostOpacity,
+      }}
+    >
+      {/* capa que usamos SOLO en mobile para simular fixed */}
+      <div className="fa-parallaxImg__bg" aria-hidden="true" />
+
+      {children ? (
+        <div className="fa-parallaxImg__content">{children}</div>
+      ) : null}
+    </section>
+  );
+}

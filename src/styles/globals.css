@@ -1,0 +1,271 @@
+@import "./variables.css";
+
+/* Reset suave */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--grad-velvet);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* El hero no debe tener padding ni borde abajo */
+section#inicio {
+  padding: 0;
+  border-bottom: none;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+section {
+  padding: var(--section-y) 0;
+  scroll-margin-top: 96px;
+}
+
+.container {
+  width: min(var(--container), 92%);
+  margin: 0 auto;
+}
+
+/* Headings */
+h1,
+h2,
+h3 {
+  margin: 0 0 12px;
+  line-height: 1.1;
+  font-synthesis: none; /* evita "pesos inventados" que engordan fuentes display */
+}
+
+h1 {
+  font-family: var(--font-display); /* Super Dream */
+  font-weight: 400; /* usa el peso real del woff2 */
+  font-size: clamp(42px, 5vw, 68px);
+  letter-spacing: -0.015em;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+h2 {
+  font-family: var(--font-display); /* Playfair Display */
+  font-weight: 600;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+h3 {
+  font-family: var(--font-subtitle);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+p {
+  margin: 0 0 12px;
+  color: var(--text-2);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Layout helpers */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media (min-width: 900px) {
+  .grid2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+}
+
+/* Cards */
+.card {
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(210, 162, 76, 0.22);
+}
+
+/* Embeds */
+.embed {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Buttons (mejor hover: brillo + "sheen" dorado que pasa por arriba) */
+.btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+
+  font-family: var(--font-subtitle);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  cursor: pointer;
+  user-select: none;
+
+  transform: translateZ(0);
+  transition: transform var(--t-fast), background var(--t), border-color var(--t),
+    box-shadow var(--t), color var(--t), filter var(--t);
+}
+
+/* brillo tipo "pasada" */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(241, 209, 138, 0.0) 35%,
+    rgba(241, 209, 138, 0.55) 50%,
+    rgba(241, 209, 138, 0.0) 65%,
+    transparent 100%
+  );
+
+  transform: translateX(-120%) skewX(-18deg);
+  transition: transform 700ms var(--ease);
+  opacity: 0.9;
+}
+
+/* halo suave */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--t);
+  background:
+    radial-gradient(220px 120px at 30% 30%, rgba(210,162,76,0.22), transparent 60%),
+    radial-gradient(260px 140px at 70% 70%, rgba(177,24,43,0.18), transparent 60%);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.03);
+}
+
+.btn:hover::after {
+  transform: translateX(120%) skewX(-18deg);
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn:active {
+  transform: translateY(0px) scale(0.99);
+}
+
+.btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: var(--text);
+  box-shadow: var(--btn-glow);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--btn-glow-hover);
+}
+
+/* Secondary */
+.btn-secondary {
+  background: rgba(244, 236, 233, 0.06);
+  color: var(--text);
+  border-color: rgba(210, 162, 76, 0.32);
+}
+
+.btn-secondary:hover {
+  background: rgba(210, 162, 76, 0.11);
+  border-color: rgba(210, 162, 76, 0.55);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Focus accesible global */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto;
+  }
+}

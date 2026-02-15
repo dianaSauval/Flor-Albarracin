@@ -1,0 +1,77 @@
+/* =========================
+   Sección Multimedia
+========================= */
+
+.mm .mm__head {
+  max-width: 680px;
+  margin-bottom: 18px;
+}
+
+
+/* =========================
+   Grid principal (YouTube / Spotify)
+========================= */
+
+.mm__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 900px) {
+  .mm__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+  }
+}
+
+
+/* =========================
+   Columnas internas (listas de cards)
+========================= */
+
+.mm__cards {
+  display: grid;
+  gap: 18px;
+}
+
+/* Más aire para YouTube */
+.mm__cards--youtube {
+  gap: 26px;
+}
+
+.mm__cards--youtube > .mmCard--featured {
+  margin-bottom: 6px;
+}
+
+@media (min-width: 900px) {
+  .mm__cards--youtube {
+    gap: 30px;
+  }
+}
+
+
+/* =========================
+   Labels (YouTube / Spotify)
+========================= */
+
+.mm__label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 12px;
+}
+
+.mm__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: 0 0 0 4px rgba(177, 24, 43, 0.16);
+}
+
+.mm__dot--gold {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(210, 162, 76, 0.14);
+}

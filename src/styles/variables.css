@@ -1,0 +1,110 @@
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Cinzel:wght@400;500;600;700&family=Allura&family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600&display=swap");
+
+/* IMPORTANTE: el nombre de font-family es un alias, no el nombre del archivo */
+@font-face {
+  font-family: "Super Dream";
+  src: url("../assets/fonts/Super%20Dream.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Typography */
+
+  /* Display (solo para títulos grandes / hero) */
+  --font-display: "Super Dream", serif;
+
+  /* Títulos legibles (H2 / secciones) */
+  --font-title: "Cinzel", serif;
+
+  /* Firma */
+  --font-signature: "Allura", cursive;
+
+  /* Subtítulos UI */
+  --font-subtitle: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+
+  /* Texto general */
+  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Palette (terciopelo rojo + dorado + teatro) */
+  --bg: #0f0b0c;
+  --bg-2: #151012;
+  --surface: #1b1417;
+  --surface-2: #241b1f;
+
+  --text: #f4ece9;
+  --text-2: rgba(244, 236, 233, 0.78);
+  --muted: rgba(244, 236, 233, 0.62);
+
+  --primary: #b1182b;
+  --primary-2: #7f0f20;
+  --wine: #66141b;
+
+  --accent: #d2a24c;
+  --accent-2: #f1d18a;
+
+  --paper: #f4e1ff;
+
+  --border: rgba(210, 162, 76, 0.18);
+
+  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.35);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+
+  --container: 1120px;
+
+  /* ✅ Espaciado vertical de secciones (mobile-first) */
+  --section-y: 28px;
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-fast: 160ms var(--ease);
+  --t: 260ms var(--ease);
+
+  --btn-glow: 0 14px 28px rgba(177, 24, 43, 0.25);
+  --btn-glow-hover: 0 18px 36px rgba(177, 24, 43, 0.32);
+  --focus-ring: 2px solid rgba(210, 162, 76, 0.75);
+
+  --grad-velvet: radial-gradient(
+      1200px 600px at 50% 10%,
+      rgba(177, 24, 43, 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 70% 40%,
+      rgba(210, 162, 76, 0.14),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(15, 11, 12, 1), rgba(21, 16, 18, 1));
+}
+
+/* =========================
+   ✅ Breakpoints SOLO para --section-y
+   Mobile-first: :root = mobile
+========================= */
+
+/* Tablet */
+@media (min-width: 768px) {
+  :root {
+    --section-y: 44px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  :root {
+    --section-y: 64px;
+  }
+}
+
+/* Desktop grande (opcional) */
+@media (min-width: 1280px) {
+  :root {
+    --section-y: 72px;
+  }
+}

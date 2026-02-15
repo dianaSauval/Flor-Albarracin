@@ -1,0 +1,171 @@
+/* Layout base: 2 columnas en desktop, 1 en mobile */
+.fa-bio {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+/* Desktop */
+@media (min-width: 920px) {
+  .fa-bio {
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 24px;
+  }
+}
+
+/* Estado inicial animación reveal */
+.fa-bio__media,
+.fa-bio__content {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+
+.fa-bio.is-visible .fa-bio__media {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fa-bio.is-visible .fa-bio__content {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 120ms;
+}
+
+/* ---------- Media / Imagen ---------- */
+
+.fa-bio__frame {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(210, 162, 76, 0.28);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(180deg, rgba(102, 20, 27, 0.15), rgba(0, 0, 0, 0));
+
+  /* Parallax vars */
+  --px: 0;
+  --py: 0;
+}
+
+.fa-bio__img {
+  width: 100%;
+  height: clamp(380px, 48vw, 560px);
+  object-fit: cover;
+  object-position: center 18%;
+  filter: saturate(1.12) contrast(1.06);
+
+  /* Micro-parallax: muy sutil + “floating” */
+  transform: translate(calc(var(--px) * 1px), calc(var(--py) * 1px)) scale(1.05);
+  transition: transform 420ms var(--ease);
+  will-change: transform;
+}
+
+/* “Luz” sutil arriba */
+.fa-bio__shine {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(520px 420px at 30% 18%, rgba(210, 162, 76, 0.18), transparent 60%),
+    radial-gradient(640px 520px at 70% 72%, rgba(177, 24, 43, 0.22), transparent 62%),
+    linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.38));
+  pointer-events: none;
+
+  /* Micro-parallax en sentido opuesto para profundidad */
+  transform: translate(calc(var(--px) * -0.6px), calc(var(--py) * -0.6px));
+  transition: transform 420ms var(--ease);
+  will-change: transform;
+}
+
+/* Caption */
+.fa-bio__caption {
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.fa-bio__credit {
+  color: var(--accent-2);
+}
+
+/* ---------- Content ---------- */
+
+.fa-bio__content {
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(210, 162, 76, 0.18);
+  background:
+    radial-gradient(900px 300px at 10% 0%, rgba(210, 162, 76, 0.12), transparent 60%),
+    linear-gradient(180deg, rgba(27, 20, 23, 0.88), rgba(21, 16, 18, 0.86));
+  padding: clamp(18px, 3vw, 26px);
+  box-shadow: var(--shadow-sm);
+}
+
+.fa-bio__title {
+  margin-top: 6px;
+  margin-bottom: 14px;
+  color: var(--text);
+  font-family: var(--font-display);
+}
+
+.fa-bio__content p {
+  max-width: 70ch;
+}
+
+/* Acciones */
+.fa-bio__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* ---------- Breakpoints finos ---------- */
+
+/* Tablet: un poco menos alto y orden más “poster” */
+@media (min-width: 700px) and (max-width: 919px) {
+  .fa-bio__img {
+    height: clamp(420px, 62vw, 560px);
+    object-position: center 16%;
+  }
+}
+
+/* Mobile: imagen arriba + texto abajo, pero bien compacto */
+@media (max-width: 699px) {
+  .fa-bio__img {
+    height: 540px; /* vertical linda */
+    object-position: center 14%;
+  }
+
+  .fa-bio__content {
+    padding: 18px;
+  }
+
+  .fa-bio__actions .btn {
+    width: 100%; /* CTAs full-width para UX mobile */
+    justify-content: center;
+  }
+}
+
+/* Reduce motion: sin reveal ni parallax */
+@media (prefers-reduced-motion: reduce) {
+  .fa-bio__media,
+  .fa-bio__content {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .fa-bio__img,
+  .fa-bio__shine {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Si no hay hover/pointer fino: evitamos “sensación rara” en touch */
+@media (hover: none), (pointer: coarse) {
+  .fa-bio__img,
+  .fa-bio__shine {
+    transition: none;
+  }
+}

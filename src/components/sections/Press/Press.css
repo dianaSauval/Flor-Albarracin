@@ -1,0 +1,302 @@
+/* =========================
+   Prensa
+========================= */
+
+.press__head {
+  max-width: 720px;
+  margin-bottom: 18px;
+}
+
+.press__list {
+  list-style: none;
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .press__list {
+    gap: 18px;
+  }
+}
+
+/* =========================
+   Card base
+========================= */
+
+.pressCard {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+}
+
+.pressCard__content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Top row */
+
+.pressCard__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.pressCard__titleWrap {
+  min-width: 0;
+}
+
+.pressCard__title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.pressCard__meta {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.pressCard__btn {
+  white-space: nowrap;
+}
+
+/* =========================
+   Layout (preview + cutout)
+========================= */
+
+.pressCard__layout {
+  display: grid;
+  gap: 14px;
+}
+
+/* SOLO en featured hacemos 2 columnas */
+.pressCard__layout--featured {
+  grid-template-columns: 1fr min(240px, 30%);
+  align-items: end;
+}
+
+/* =========================
+   Preview container
+========================= */
+
+.pressCard__preview {
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(210, 162, 76, 0.18);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+/* Header del preview */
+
+.pressCard__site {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(210, 162, 76, 0.14);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.pressCard__favicon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex: 0 0 auto;
+  filter: saturate(1.1);
+}
+
+.pressCard__domain {
+  font-family: var(--font-subtitle);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.pressCard__chip {
+  margin-left: auto;
+  font-family: var(--font-subtitle);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 162, 76, 0.26);
+  background: rgba(210, 162, 76, 0.10);
+}
+
+.pressCard__chip--pdf {
+  border-color: rgba(210, 162, 76, 0.45);
+  background: rgba(210, 162, 76, 0.14);
+  color: var(--accent-2);
+}
+
+/* =========================
+   Embed / Thumb
+========================= */
+
+.pressCard__thumb {
+  position: relative;
+}
+
+/* Si no es embed */
+.pressCard__thumbGradient {
+  height: 140px;
+  background:
+    radial-gradient(420px 180px at 30% 20%, rgba(210, 162, 76, 0.12), transparent 60%),
+    radial-gradient(420px 220px at 80% 80%, rgba(177, 24, 43, 0.22), transparent 65%),
+    linear-gradient(135deg, rgba(15, 11, 12, 0.35), rgba(21, 16, 18, 0.65));
+}
+
+/* Iframe */
+
+.pressCard__iframeWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: rgba(0, 0, 0, 0.25);
+  max-height: 520px;
+  overflow: hidden;
+}
+
+.pressCard__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Overlay clickeable */
+
+.pressCard__iframeOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: end start;
+  padding: 12px;
+  text-decoration: none;
+  color: inherit;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.00) 40%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.pressCard__iframeWrap:hover .pressCard__iframeOverlay {
+  opacity: 1;
+}
+
+.pressCard__overlayBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 162, 76, 0.35);
+  background: rgba(15, 11, 12, 0.62);
+  backdrop-filter: blur(6px);
+
+  font-family: var(--font-subtitle);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-1);
+}
+
+/* =========================
+   Cutout (featured)
+========================= */
+
+.pressCard__cutoutCol {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  pointer-events: none;
+
+  filter:
+    drop-shadow(0 22px 52px rgba(0, 0, 0, 0.65))
+    drop-shadow(0 0 18px rgba(210, 162, 76, 0.14));
+}
+
+.pressCard__cutoutCol img {
+  width: min(240px, 100%);
+  height: auto;
+  display: block;
+  transform: translateY(44px);
+}
+
+/* =========================
+   Featured background teatral
+========================= */
+
+.pressCard--featured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--radius-md);
+
+  background:
+    radial-gradient(520px 340px at 18% 28%, rgba(210, 162, 76, 0.16), transparent 60%),
+    radial-gradient(520px 360px at 70% 12%, rgba(177, 24, 43, 0.30), transparent 62%),
+    radial-gradient(520px 420px at 92% 78%, rgba(102, 20, 27, 0.42), transparent 65%),
+    linear-gradient(180deg, rgba(15, 11, 12, 0.35), rgba(15, 11, 12, 0.92));
+
+  filter: saturate(1.12) contrast(1.08);
+}
+
+
+.press__imageBlock {
+  margin-top: 80px; /* ajustá este valor */
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 520px) {
+
+  .pressCard__top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pressCard__btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .pressCard__layout--featured {
+    grid-template-columns: 1fr;
+  }
+
+  .pressCard__cutoutCol {
+    display: none;
+  }
+
+  .pressCard__iframeWrap {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+  }
+}

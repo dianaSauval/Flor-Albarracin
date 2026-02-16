@@ -114,13 +114,14 @@
 @media (max-width: 768px) {
   .pi__wrap {
     height: auto;       /* 🔥 clave */
-    min-height: 0;      /* 🔥 clave */
+    min-height: 220px;     /* 🔥 clave */
     width: 100%;
   }
 
   .pi__img {
-    height: auto;       /* 🔥 que no herede 100% */
-    max-height: 65vh;   /* opcional, límite elegante */
+    height: auto;  
+    width: 100%;      
+    max-height: 65vh;   
     border-radius: 18px;
   }
 }
@@ -129,7 +130,7 @@
 @media (max-width: 420px) {
   .pi__wrap {
     height: auto;      /* ✅ no fuerces vh */
-    min-height: 0;     /* ✅ */
+    min-height: 180px;     /* ✅ */
   }
 
   .pi__img {

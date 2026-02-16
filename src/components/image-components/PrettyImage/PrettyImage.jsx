@@ -5,12 +5,12 @@ export default function PrettyImage({
   src,
   alt = "",
   height = "70vh",
-  fit = "contain",          // "contain" o "cover"
-  position = "center",      // ej: "center 30%"
+  fit = "contain",
+  position = "center",
   radius = "22px",
-  bleed = false,            // full width si true
-  overlay = false,          // por defecto lo apago (queda más “flotante”)
-  animate = true,           // float + reveal
+  bleed = false,
+  overlay = false,
+  animate = true,
 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(!animate);
@@ -21,6 +21,19 @@ export default function PrettyImage({
     const el = ref.current;
     if (!el) return;
 
+    const prefersReduced =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ✅ En pantallas chicas: no te la juegues a que el IO falle → mostrala
+    const isSmall =
+      window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+
+    if (prefersReduced || isSmall) {
+      setVisible(true);
+      return;
+    }
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -28,7 +41,10 @@ export default function PrettyImage({
           io.disconnect();
         }
       },
-      { threshold: 0.18 }
+      {
+        threshold: 0.01,
+        rootMargin: "200px 0px", // ✅ dispara antes (mejor para lazy/anim)
+      }
     );
 
     io.observe(el);
@@ -53,7 +69,9 @@ export default function PrettyImage({
             className={`pi__img ${fit === "cover" ? "is-cover" : "is-contain"}`}
             src={src}
             alt={alt}
-            loading="lazy"
+            // ✅ cuando hay animación, evitá lazy (sobre todo en mobile)
+            loading={animate ? "eager" : "lazy"}
+            decoding="async"
             style={{ objectPosition: position }}
           />
 

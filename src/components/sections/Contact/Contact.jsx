@@ -19,6 +19,12 @@ const iconByLabel = {
 
 export default function Contact() {
   useEffect(() => {
+    const isTouch = window.matchMedia("(hover: none)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (isTouch || reduce) return;
+
     const section = document.getElementById("contacto");
     if (!section) return;
 
@@ -90,8 +96,14 @@ export default function Contact() {
                     aria-label={s.label}
                     title={s.label}
                   >
-                    <span className="fa-contact__socialGlow" aria-hidden="true" />
-                    <Icon className="fa-contact__socialIcon" aria-hidden="true" />
+                    <span
+                      className="fa-contact__socialGlow"
+                      aria-hidden="true"
+                    />
+                    <Icon
+                      className="fa-contact__socialIcon"
+                      aria-hidden="true"
+                    />
                     <span className="fa-contact__socialLabel">{s.label}</span>
                   </a>
                 );

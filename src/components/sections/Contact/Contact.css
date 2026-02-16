@@ -8,10 +8,11 @@
 
   /* variables para el parallax */
   --bg-y: 0px;
-    background-image: var(--contact-bg);
+  background-image: var(--contact-bg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center 30%;
+  /* usa el offset del parallax (px) sumado al % base */
+  background-position: center calc(30% + var(--bg-y));
   background-attachment: fixed;
 }
 
@@ -29,7 +30,6 @@
   /* (los filtros reales sobre background no existen, por eso antes lo hacíamos en ::after) */
 }
 
-
 /* Overlay */
 .fa-contact::before {
   content: "";
@@ -38,10 +38,13 @@
   z-index: 1;
 
   background:
-    radial-gradient(900px 520px at 70% 28%, rgba(255, 255, 255, 0.18), transparent 62%),
+    radial-gradient(
+      900px 520px at 70% 28%,
+      rgba(255, 255, 255, 0.18),
+      transparent 62%
+    ),
     linear-gradient(180deg, rgba(10, 10, 12, 0.46), rgba(10, 10, 12, 0.28));
 }
-
 
 /* Contenido arriba */
 .fa-contact__content {
@@ -50,15 +53,6 @@
   color: rgba(255, 255, 255, 0.92);
 }
 
-
-
-
-/* Contenido arriba de todo */
-.fa-contact__content {
-  position: relative;      /* <-- agregar */
-  z-index: 2;              /* <-- agregar */
-  color: rgba(255, 255, 255, 0.92);
-}
 
 
 .fa-contact__header {
@@ -146,7 +140,10 @@
   background: rgba(255, 255, 255, 0.06);
 
   transform: translateY(0);
-  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
   overflow: hidden;
 }
 
@@ -155,8 +152,14 @@
   inset: -40%;
   opacity: 0;
   transform: translate3d(-15%, 20%, 0) rotate(12deg);
-  transition: opacity 240ms ease, transform 240ms ease;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.30), transparent 55%);
+  transition:
+    opacity 240ms ease,
+    transform 240ms ease;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.3),
+    transparent 55%
+  );
   filter: blur(2px);
 }
 
@@ -164,7 +167,9 @@
   font-size: 28px;
   color: rgba(255, 255, 255, 0.92);
   transform: translateY(0) scale(1);
-  transition: transform 240ms ease, filter 240ms ease;
+  transition:
+    transform 240ms ease,
+    filter 240ms ease;
   z-index: 1;
 }
 
@@ -174,9 +179,11 @@
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  opacity: 0.80;
+  opacity: 0.8;
   transform: translateY(6px);
-  transition: transform 240ms ease, opacity 240ms ease;
+  transition:
+    transform 240ms ease,
+    opacity 240ms ease;
   z-index: 1;
 }
 
@@ -223,8 +230,12 @@
 }
 
 @keyframes faShine {
-  0% { transform: translateX(-60%); }
-  100% { transform: translateX(60%); }
+  0% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(60%);
+  }
 }
 
 /* Manager chips */
@@ -251,7 +262,9 @@
   color: #0b0b0f;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: transform 180ms ease, filter 180ms ease;
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
 }
 
 .fa-contact__chip:hover {
@@ -276,7 +289,6 @@
   display: grid;
 }
 
-
 /* Responsive */
 @media (max-width: 860px) {
   .fa-contact__grid {
@@ -292,7 +304,9 @@
 
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
-  .fa-contact__bg { transform: none !important; }
+  .fa-contact__bg {
+    transform: none !important;
+  }
   .fa-contact__social,
   .fa-contact__socialGlow,
   .fa-contact__socialIcon,
@@ -300,5 +314,16 @@
   .fa-contact__chip {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+
+/* Mobile/Tablet: fixed rompe y genera "zoom/pixel" -> lo apagamos */
+@media (max-width: 1024px), (hover: none) {
+  .fa-contact {
+    background-attachment: scroll;         /* clave */
+    background-position: center 5%;       /* estable */
+    /* opcional: para que no “respire” raro */
+    --bg-y: 0px;
   }
 }

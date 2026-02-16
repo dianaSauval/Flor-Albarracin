@@ -59,6 +59,8 @@
 
   --container: 1120px;
 
+  --header-h: 78px;
+
   /* ✅ Espaciado vertical de secciones (mobile-first) */
   --section-y: 28px;
 

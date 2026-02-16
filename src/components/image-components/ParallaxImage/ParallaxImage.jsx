@@ -13,7 +13,7 @@ export default function ParallaxImage({
   brightness = 1.03,
   boostOpacity = 0.95,
   className = "",
-  mobileStrength = 1, // <- 1 = “como fixed”; podés bajar a 0.8 si querés más suave
+  mobileStrength = 1, // 1 = “como fixed”; bajá a 0.8 si querés más suave
   children,
 }) {
   const ref = useRef(null);
@@ -37,7 +37,7 @@ export default function ParallaxImage({
 
     const measure = () => {
       const rect = el.getBoundingClientRect();
-      elTop = rect.top + window.scrollY; // top absoluto en página
+      elTop = rect.top + window.scrollY;
     };
 
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -48,15 +48,11 @@ export default function ParallaxImage({
       const rect = el.getBoundingClientRect();
       const h = rect.height || 1;
 
-      // “cuánto scrolleé desde que empezó este bloque”
       const scrolledPast = window.scrollY - elTop;
-
-      // Esto replica el comportamiento fixed:
-      // al bajar 100px, el elemento sube 100px → la imagen debe bajar 100px dentro del contenedor
       const raw = scrolledPast * mobileStrength;
 
       // Limitamos para que no se vean bordes (porque el bg tiene inset negativo)
-      const maxShift = h * 0.28; // 28% suele ser seguro y se siente fuerte
+      const maxShift = h * 0.28;
       const y = clamp(raw, -maxShift, maxShift);
 
       el.style.setProperty("--pi-y", `${y.toFixed(2)}px`);
@@ -70,27 +66,43 @@ export default function ParallaxImage({
     update();
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", () => {
+
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
+    window.addEventListener("resize", onResize);
+
+    // ✅ Recalcular también si el bloque cambia de tamaño (rotación, fuentes, etc.)
+    const ro = new ResizeObserver(() => {
       measure();
       onScroll();
     });
+    ro.observe(el);
 
     // Por si el breakpoint cambia mientras estás en la página
     const onMqChange = () => {
       if (!mq.matches) {
         el.style.removeProperty("--pi-y");
         window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onResize);
+        ro.disconnect();
       } else {
         measure();
         onScroll();
         window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onResize);
+        ro.observe(el);
       }
     };
+
     mq.addEventListener?.("change", onMqChange);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
       mq.removeEventListener?.("change", onMqChange);
+      ro.disconnect();
       if (raf.current) cancelAnimationFrame(raf.current);
       raf.current = null;
     };
@@ -114,7 +126,7 @@ export default function ParallaxImage({
         "--pi-boost": boostOpacity,
       }}
     >
-      {/* capa que usamos SOLO en mobile para simular fixed */}
+      {/* ✅ Capa que usamos SOLO en mobile/tablet para simular el fixed */}
       <div className="fa-parallaxImg__bg" aria-hidden="true" />
 
       {children ? (

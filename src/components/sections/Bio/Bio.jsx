@@ -127,7 +127,9 @@ export default function Bio() {
             <div className="fa-bio__content">
               <h3>Biografía</h3>
 
-              <h2 className="fa-bio__title">Una artista entre lo íntimo y lo escénico</h2>
+              <h2 className="fa-bio__title">
+                Una artista entre lo íntimo y lo escénico
+              </h2>
 
               <p>
                 Flor Albarracín es una cantautora, actriz y multiinstrumentista
@@ -166,13 +168,15 @@ export default function Bio() {
         <ParallaxImage
           className="fa-parallax--piano"
           image={Image}
-          height="560px"
-          position="center 25%"
+          height="70vh"
+          minHeight="520px"
+          position="center 40%"
           saturation={1.3}
           contrast={1.12}
           brightness={1.05}
           boostOpacity={0.9}
           radius="26px"
+          mobileStrength={0.9}
         />
       </div>
     </>

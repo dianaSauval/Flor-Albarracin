@@ -2,10 +2,11 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  height: var(--pi-h, 70vh);
+  height: var(--pi-h, 60vh);
   min-height: var(--pi-minh, 420px);
   border-radius: var(--pi-radius, 22px);
 
+  /* Desktop: el background vive acá */
   background-image: var(--pi-bg);
   background-size: var(--pi-fit, cover);
   background-repeat: no-repeat;
@@ -13,11 +14,31 @@
   background-attachment: fixed;
 }
 
+/* ✅ Esta capa existe en el JSX: la usamos en mobile/tablet */
+.fa-parallaxImg__bg {
+  position: absolute;
+
+  /* Inset grande para que al mover no se vean bordes */
+  inset: -28%;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: var(--pi-bg);
+  background-size: var(--pi-fit, cover);
+  background-repeat: no-repeat;
+  background-position: var(--pi-pos, center 30%);
+
+  transform: translate3d(0, calc(var(--pi-y, 0px) + var(--pi-y0, 0px)), 0);
+
+  will-change: transform;
+}
+
+/* filtros */
 .fa-parallaxImg::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 
   backdrop-filter: saturate(var(--pi-sat, 1.22)) contrast(var(--pi-con, 1.08))
@@ -26,11 +47,12 @@
     contrast(var(--pi-con, 1.08)) brightness(var(--pi-bri, 1.03));
 }
 
+/* glow */
 .fa-parallaxImg::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 
   opacity: var(--pi-boost, 0.95);
@@ -42,15 +64,34 @@
 
 .fa-parallaxImg__content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
-/* Solo para ese ParallaxImage */
+/* Desktop: no usamos el fake bg */
+@media (min-width: 821px) {
+  .fa-parallaxImg__bg {
+    display: none;
+  }
+}
+
+/* Ejemplo de variables por instancia (opcional) */
 .fa-parallax--piano {
-  --pi-pos-m: center 38%;
+  --pi-pos-m: center 58%;
   --pi-h-m: 44vh;
   --pi-minh-m: 280px;
+    /* NUEVO: empuje fijo hacia abajo */
+  --pi-y0: 86px;
 }
+
+/* Desktop: bajamos el encuadre para que el sticky header no tape la cabeza */
+@media (min-width: 821px) {
+  .fa-parallax--piano {
+    /* mueve el fondo hacia abajo sumando el alto del header */
+    background-position: center calc(25% + var(--header-h));
+  }
+}
+
+
 /* 🎵 Parallax acordeón – ajuste fino SOLO para esta imagen */
 .fa-parallax--accordion {
   /* desktop: se mantiene cover */
@@ -61,27 +102,31 @@
   .fa-parallax--accordion {
     --pi-fit-m: contain;
     --pi-pos-m: center center;
-
-    /* Ajuste rápido */
     --pi-h-m: 30vh;
     --pi-minh-m: 240px;
   }
 }
 
-
-
-/* ✅ Mobile: mismo efecto, solo sizing/encuadre */
+/* ✅ Mobile/Tablet: apagar el fixed real y usar SOLO la capa fake */
 @media (max-width: 820px) {
   .fa-parallaxImg {
     height: var(--pi-h-m, 48vh);
     min-height: var(--pi-minh-m, 300px);
 
+    /* clave: fixed rompe en mobile */
+    background-attachment: scroll;
+
+    /* clave: apagamos el background del section para no duplicar */
+    background-image: none;
+
     background-position: var(--pi-pos-m, var(--pi-pos, center 35%));
     background-size: var(--pi-fit-m, var(--pi-fit, cover));
-
-    /* NO tocamos el efecto */
-    background-attachment: fixed;
     background-repeat: no-repeat;
   }
-}
 
+  .fa-parallaxImg__bg {
+    display: block;
+    background-position: var(--pi-pos-m, var(--pi-pos, center 35%));
+    background-size: var(--pi-fit-m, var(--pi-fit, cover));
+  }
+}

@@ -1,8 +1,13 @@
-.pi {
-  padding: 0 !important; /* apaga padding global de section */
-  margin: clamp(22px, 4.5vw, 52px) 0 clamp(34px, 6vw, 80px);
+/* =============================
+   PRETTY IMAGE (FLOATING)
+   - sin caja detrás
+   - centrado absoluto
+   - overlay no genera rectángulo grande
+   ============================= */
 
-  /* por si algún padre tiene fondo/card raro */
+.pi {
+  padding: 0 !important;
+  margin: clamp(22px, 4.5vw, 52px) 0 clamp(34px, 6vw, 80px);
   background: transparent;
 }
 
@@ -13,57 +18,56 @@
   margin: 0;
 }
 
-/* ✅ blindaje por si tu .container global trae fondo/borde/sombra */
+/* blindaje: si tu .container global trae fondo/borde/sombra */
 .pi .container {
   background: transparent !important;
   box-shadow: none !important;
   border: 0 !important;
 }
 
+/* ✅ clave: centramos desde el inner */
+.pi__inner {
+  display: flex;
+  justify-content: center;
+}
+
 /* -------------------------------------------------
-   WRAP: ahora se ajusta a la imagen (no al revés)
+   WRAP: abraza la imagen (NO 100% ancho)
+   => así el overlay no crea “card” atrás
    ------------------------------------------------- */
 .pi__wrap {
   position: relative;
 
-  /* ✅ en vez de “caja grande”, que abrace la imagen */
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 
-  width: fit-content;
-  max-width: 100%;
-
-  height: auto;         /* ✅ clave: no fuerces vh acá */
-  min-height: 0;        /* ✅ elimina el “bloque” mínimo */
-  max-height: none;
-
+  width: fit-content;     /* ✅ abraza contenido */
+  max-width: 100%;        /* ✅ no desborda */
   margin-inline: auto;
+
+  height: auto;
+  min-height: 0;
 
   background: transparent;
   border: 0;
-  border-radius: 0;
 
-  /* ✅ evita glitches de sombra/animación */
-  transform: translateZ(0);
-  isolation: isolate; /* overlay/sombra más predecible */
+  isolation: isolate;
 }
 
 /* -------------------------------------------------
-   IMAGEN: controla tamaño y “float”
+   IMAGEN: flotante, sin caja
    ------------------------------------------------- */
 .pi__img {
   display: block;
 
-  /* ancho adaptable */
-  width: min(100%, var(--pi-w, 920px));
+  width: min(100%, var(--pi-w, 980px));
   height: auto;
 
-  /* ✅ el “height” que pasás por props ahora limita la imagen */
-  max-height: min(var(--pi-h, 70vh), 820px);
+  max-height: min(var(--pi-h, 75vh), 900px);
 
   border-radius: var(--pi-radius, 22px);
 
-  /* flotante: solo sombra + contorno sutil */
   box-shadow:
     0 24px 80px rgba(0, 0, 0, 0.55),
     0 10px 26px rgba(0, 0, 0, 0.35);
@@ -81,20 +85,17 @@
 
 .pi__img.is-cover {
   object-fit: cover;
-  /* Si querés “cover” con altura fija, la damos a la IMAGEN (no al wrap) */
-  height: min(var(--pi-h, 70vh), 820px);
+  height: min(var(--pi-h, 75vh), 900px);
 }
 
 /* -------------------------------------------------
-   Overlay opcional: ahora calza con la imagen
-   (no con una caja grande)
+   Overlay opcional: ahora coincide EXACTO con la imagen
+   (porque el wrap ya no es un rectángulo gigante)
    ------------------------------------------------- */
 .pi__overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
-
-  /* ✅ al tener wrap ajustado, esto coincide con la img */
   border-radius: var(--pi-radius, 22px);
   background: radial-gradient(
     60% 70% at 55% 35%,
@@ -104,14 +105,12 @@
 }
 
 /* -------------------------------------------------
-   Animación de reveal (suave, sin mover layout)
+   Reveal al aparecer
    ------------------------------------------------- */
 .pi__wrap.is-animated {
   opacity: 0;
   transform: translateY(14px);
-  transition:
-    opacity 700ms ease,
-    transform 800ms ease;
+  transition: opacity 700ms ease, transform 800ms ease;
 }
 
 .pi__wrap.is-animated.is-visible {
@@ -125,8 +124,8 @@
 }
 
 @keyframes pi-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
+  0%, 100% { transform: translateY(0) translateZ(0); }
+  50%      { transform: translateY(-8px) translateZ(0); }
 }
 
 /* Accesibilidad */
@@ -140,22 +139,23 @@
   }
 }
 
-/* -------------------------------------------------
-   Responsive: teléfonos/tablets
-   ------------------------------------------------- */
+/* =============================
+   RESPONSIVE
+   ============================= */
+
 @media (max-width: 768px) {
   .pi {
     margin: 18px 0 24px;
   }
 
+  /* ✅ en mobile sí puede ocupar todo el ancho */
   .pi__wrap {
     width: 100%;
-    justify-content: center;
   }
 
   .pi__img {
     width: 100%;
-    max-height: 65svh; /* ✅ viewport height estable en móvil */
+    max-height: 65svh;
     border-radius: 18px;
   }
 }
@@ -163,5 +163,28 @@
 @media (max-width: 420px) {
   .pi__img {
     max-height: 56svh;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .pi__img {
+    max-height: 78svh;
+  }
+}
+
+/* =============================
+   DESKTOP GRANDE (más grande)
+   ============================= */
+
+@media (min-width: 1200px) {
+  .pi__img {
+    width: min(100%, 1150px);
+    max-height: 85vh;
+  }
+}
+
+@media (min-width: 1500px) {
+  .pi__img {
+    width: min(100%, 1300px);
   }
 }

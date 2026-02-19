@@ -13,7 +13,7 @@ import "./styles/globals.css";
 export default function App() {
   return (
     <>
-       <Header />
+      <Header />
 
       <main>
         <section id="inicio">
@@ -24,17 +24,11 @@ export default function App() {
           <Bio />
         </section>
 
-       
-          <Multimedia />
-   
+        <Multimedia />
 
-        
-          <Press />
-     
+        <Press />
 
-        <section id="fechas">
-          <Dates />
-        </section>
+        <Dates />
 
         <section id="contacto">
           <Contact />

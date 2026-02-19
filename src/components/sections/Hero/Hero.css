@@ -1,9 +1,27 @@
+/* =============================
+   HERO (RESPONSIVE ROBUSTO)
+   - texto abajo sin translate
+   - ajustes por ancho/alto/ratio
+   ============================= */
+
 .fa-hero {
   position: relative;
-  min-height: clamp(640px, 100vh, 920px);
-  display: grid;
-  align-items: center;
   overflow: hidden;
+
+  /* Layout estable */
+  display: grid;
+  align-items: stretch;
+
+  /* vh real en móviles */
+  min-height: min(920px, 100svh);
+
+  /* Control de encuadre del fondo por variables */
+  --hero-bg-x: 85%;
+  --hero-bg-y: 45%;
+
+  /* Padding base (se overridea en breakpoints) */
+  --hero-pad-top: clamp(18px, 5vh, 64px);
+  --hero-pad-bottom: clamp(18px, 7vh, 84px);
 }
 
 /* Fondo */
@@ -11,7 +29,7 @@
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: 180% center; /* ✅ default desktop: Flor más a la izquierda */
+  background-position: var(--hero-bg-x) var(--hero-bg-y);
   filter: saturate(1.05) contrast(1.05);
   transform: scale(1.02);
 }
@@ -21,6 +39,8 @@
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
+
   background:
     radial-gradient(
       900px 520px at 72% 45%,
@@ -38,191 +58,160 @@
       rgba(15, 11, 12, 0.52) 42%,
       rgba(15, 11, 12, 0.84) 100%
     );
-  z-index: 1;
 }
 
+/* Contenido */
 .fa-hero__content {
   position: relative;
   z-index: 2;
-  padding: clamp(36px, 6vw, 72px) 0;
+
+  /* ✅ grid “techo y piso”: texto abajo sin hacks */
   display: grid;
+  grid-template-rows: 1fr auto;
+
+  padding-top: var(--hero-pad-top);
+  padding-bottom: var(--hero-pad-bottom);
 }
 
-/* ✅ Texto a la derecha, con ajuste fino */
+/* Texto */
 .fa-hero__text {
+  grid-row: 2;
+  align-self: end;
+
   max-width: 680px;
   justify-self: end;
   text-align: left;
 
-  /* esto es lo que “pega” el título cerca de las manos */
-  transform: translateX(20px) translateY(30px);
+  /* ajuste fino estable */
+  margin-right: clamp(0px, 2vw, 36px);
 }
 
+/* Tipos */
 .fa-hero__title {
-  font-family: var(--font-display); 
-  font-size: clamp(38px, 5vw, 64px);
-  text-transform: uppercase;
-
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5vw, 64px);
   font-weight: 400;
   margin: 0 0 10px;
-  letter-spacing: 0.045em; /* ✅ clave para look póster */
-  white-space: nowrap;
+
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+
+  /* ✅ nowrap rompe móviles: mejor permitir wrap */
+  white-space: normal;
+  line-height: 1.05;
+  text-wrap: balance;
 }
-
-
 
 .fa-hero__title span {
   color: var(--accent);
   text-shadow: 0 16px 32px rgba(210, 162, 76, 0.18);
 }
 
-
 .fa-hero__subtitle {
-  font-family: var(--font-signature); /* Allura */
+  font-family: var(--font-signature);
   margin: 0 0 18px;
-  font-size: clamp(22px, 3vw, 36px);
+  font-size: clamp(18px, 3vw, 36px);
   font-weight: 400;
-  letter-spacing: 0.04em; /* ✅ respira mejor al ser corta */
+  letter-spacing: 0.04em;
   color: var(--text-2);
-  max-width: none;        /* ✅ no la limites */
-  line-height: 1.2;       /* ✅ más “frase” que párrafo */
+  line-height: 1.2;
 }
 
 .fa-hero__role {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  font-size: clamp(0.72rem, 1.2vw, 1rem);
+  letter-spacing: clamp(0.06em, 0.5vw, 0.14em);
   text-transform: uppercase;
   opacity: 0.7;
   margin-top: 8px;
   padding-bottom: 10px;
+  max-width: 60ch;
 }
-
-
 
 .fa-hero__ctas {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
-/* -----------------------------
-   BREAKPOINTS DESKTOP GRANDES
-   ----------------------------- */
+/* =============================
+   DESKTOP GRANDE
+   ============================= */
 
-/* ✅ Pantallas grandes: Flor más a la izquierda + texto un poquito más a la derecha */
 @media (min-width: 1200px) {
-  .fa-hero__bg {
-    background-position: 180% center; /* más a la izquierda */
-  }
-
-  .fa-hero__text {
-    transform: translateX(36px) translateY(-90px); /* empujamos título hacia “las manos” */
+  .fa-hero {
+    /* sujeto bien encuadrado */
+    --hero-bg-x: 88%;
+    --hero-bg-y: 45%;
+    --hero-pad-top: clamp(36px, 6vh, 80px);
+    --hero-pad-bottom: clamp(26px, 6vh, 72px);
   }
 }
 
-/* ✅ Ultra wide: aún más control para que no se descalibre en monitores grandes */
 @media (min-width: 1500px) {
-  .fa-hero__bg {
-    background-position: 180% center;
+  .fa-hero {
+    --hero-bg-x: 90%;
   }
 
   .fa-hero__text {
-    transform: translateX(56px);
-    max-width: 720px;
+    max-width: 760px;
   }
 }
 
-/* -----------------------------
-   TABLET / MEDIO
-   ----------------------------- */
+/* =============================
+   TABLET / LAPTOP (rango general)
+   ============================= */
+
 @media (max-width: 900px) {
   .fa-hero {
-    min-height: 78vh;
-  }
+    min-height: 78svh;
 
-  .fa-hero__bg {
-    background-position: 22% center;
+    /* reencuadre para tablets */
+    --hero-bg-x: 28%;
+    --hero-bg-y: 52%;
+
+    /* un poco más abajo que desktop */
+    --hero-pad-top: clamp(16px, 4vh, 44px);
+    --hero-pad-bottom: clamp(34px, 9vh, 120px);
   }
 
   .fa-hero__text {
     justify-self: start;
+    margin-right: 0;
     max-width: 620px;
-    transform: translateX(18px) translateY(60px);
   }
 }
 
-@media (width: 1024px) and (height: 1366px) {
+/* ✅ iPad Air / Mini aprox (sin “modelo exacto”) */
+@media (min-width: 700px) and (max-width: 980px) {
   .fa-hero {
-    min-height: 82vh;
-  }
-
-  .fa-hero__bg {
-    background-position: 22% center;
-  }
-
-  .fa-hero__text {
-    max-width: 680px;
-    justify-self: start;
-    transform: translateX(24px) translateY(44px);
-  }
-}
-@media (width: 1366px) and (height: 1024px) {
-  .fa-hero {
-    min-height: 74vh;
-  }
-
-  .fa-hero__bg {
-    background-position: 24% center;
-  }
-
-  .fa-hero__text {
-    max-width: 720px;
-    transform: translateX(40px) translateY(-6px);
+    /* un toque más abajo que tablet común */
+    --hero-pad-bottom: clamp(46px, 11vh, 140px);
   }
 }
 
-/* Pantallas altas tipo tablet (ancho medio, alto grande) */
-@media (min-width: 820px) and (max-width: 980px) and (min-height: 1100px) {
-  .fa-hero {
-    min-height: 80vh;
-  }
+/* =============================
+   MOBILE (vertical)
+   ============================= */
 
-  .fa-hero__bg {
-    background-position: 28% center;
-  }
-
-  .fa-hero__text {
-    max-width: 560px;
-    transform: translateX(0px) translateY(-12px);
-  }
-
-  .fa-hero__title {
-    white-space: normal;
-  }
-}
-
-/* -----------------------------
-   MOBILE (título arriba + Flor baja)
-   ----------------------------- */
 @media (max-width: 600px) {
   .fa-hero {
-    align-items: start;
-    padding-top: 28px;
-    min-height: 72vh;
-  }
+    /* Mostramos más abajo del cuerpo para que el texto no tape */
+    --hero-bg-x: 30%;
+    --hero-bg-y: 74%;
 
-  .fa-hero__bg {
-    /* ✅ mostramos más abajo: cabeza queda “más abajo” como pediste */
-    background-position: 20% 70%;
+    /* ✅ clave: mucho más padding abajo = texto más abajo */
+    --hero-pad-top: clamp(10px, 2vh, 18px);
+    --hero-pad-bottom: clamp(38px, 12vh, 120px);
   }
 
   .fa-hero__text {
-    transform: translatey(220px);
+    justify-self: center;
+    max-width: min(92%, 560px);
   }
 
+  /* overlay un poco más oscuro para legibilidad */
   .fa-hero::before {
-    /* overlay un poquito más oscuro para que se lea en móvil */
     background:
       radial-gradient(
         900px 520px at 70% 35%,
@@ -231,97 +220,59 @@
       ),
       linear-gradient(
         180deg,
-        rgba(15, 11, 12, 0.78) 0%,
+        rgba(15, 11, 12, 0.80) 0%,
         rgba(15, 11, 12, 0.62) 55%,
-        rgba(15, 11, 12, 0.84) 100%
+        rgba(15, 11, 12, 0.86) 100%
       );
-  }
-
-  .fa-hero__content {
-    padding: 26px 0 44px;
-  }
-
-  .fa-hero__text {
-    justify-self: center;
-    max-width: 92%;
-  }
-
-  .fa-hero__title {
-    font-size: clamp(38px, 10vw, 54px);
   }
 }
 
-/* Mobile grande / Surface Duo */
-@media (min-width: 480px) and (max-width: 600px) and (min-height: 650px) {
+/* Mobile MUY chico */
+@media (max-width: 380px) {
   .fa-hero {
-    min-height: 64vh;  /* ✅ más compacto */
-  }
-
-  .fa-hero__content {
-    padding: 18px 0 30px; /* ✅ menos aire */
-  }
-
-  .fa-hero__bg {
-    background-position: 42% 62%; /* ✅ encuadre más lindo en este formato */
-  }
-
-  .fa-hero__text {
-    max-width: 92%;
-    transform: translateY(170px);
+    --hero-pad-bottom: clamp(44px, 14vh, 140px);
   }
 
   .fa-hero__title {
-    font-size: clamp(34px, 7vw, 46px); /* ✅ para que no “reviente” */
-    white-space: normal; /* ✅ deja que haga salto si necesita */
+    font-size: clamp(30px, 9.5vw, 44px);
+    letter-spacing: 0.035em;
   }
 
   .fa-hero__subtitle {
-    font-size: 15px;
-    max-width: 52ch;
+    font-size: 18px;
   }
 }
 
-
-
-/* Desktop grande */
-@media (min-width: 1400px) {
-  .fa-hero__role {
-    font-size: 1rem;
-    letter-spacing: 0.14em;
+/* =============================
+   FOLDABLES / Surface Duo (sin detectar modelo)
+   - pantallas “anchas” en vertical
+   ============================= */
+@media (max-width: 720px) and (min-aspect-ratio: 7/10) {
+  .fa-hero {
+    --hero-bg-y: 78%;
+    --hero-pad-bottom: clamp(70px, 18vh, 160px);
   }
 }
 
-/* Laptop / Desktop normal */
-@media (max-width: 1200px) {
-  .fa-hero__role {
-    font-size: 0.85rem;
-  }
-}
+/* =============================
+   MOBILE LANDSCAPE
+   - poco alto: no podemos bajarlo mucho o se corta
+   ============================= */
+@media (max-height: 520px) and (orientation: landscape) {
+  .fa-hero {
+    min-height: 520px;
 
-/* Tablet */
-@media (max-width: 992px) {
-  .fa-hero__role {
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    max-width: 520px;
-  }
-}
+    /* encuadre más centrado */
+    --hero-bg-x: 42%;
+    --hero-bg-y: 52%;
 
-/* Mobile grande */
-@media (max-width: 768px) {
-  .fa-hero__role {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-align:start;
-    max-width: 90%;
+    /* menos padding abajo para que no se salga */
+    --hero-pad-top: 14px;
+    --hero-pad-bottom: 18px;
   }
-}
 
-/* Mobile chico */
-@media (max-width: 480px) {
-  .fa-hero__role {
-    font-size: 0.7rem;
-    letter-spacing: 0.06em;
-    line-height: 1.3;
+  .fa-hero__text {
+    justify-self: start;
+    max-width: 560px;
   }
 }

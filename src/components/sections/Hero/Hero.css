@@ -88,6 +88,14 @@
   line-height: 1.2;       /* ✅ más “frase” que párrafo */
 }
 
+.fa-hero__role {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-top: 8px;
+  padding-bottom: 10px;
+}
 
 
 
@@ -273,3 +281,47 @@
   }
 }
 
+
+
+/* Desktop grande */
+@media (min-width: 1400px) {
+  .fa-hero__role {
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+  }
+}
+
+/* Laptop / Desktop normal */
+@media (max-width: 1200px) {
+  .fa-hero__role {
+    font-size: 0.85rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .fa-hero__role {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    max-width: 520px;
+  }
+}
+
+/* Mobile grande */
+@media (max-width: 768px) {
+  .fa-hero__role {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-align:start;
+    max-width: 90%;
+  }
+}
+
+/* Mobile chico */
+@media (max-width: 480px) {
+  .fa-hero__role {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+  }
+}

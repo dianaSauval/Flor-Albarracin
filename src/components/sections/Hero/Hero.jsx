@@ -22,15 +22,25 @@ export default function Hero() {
             Flor <span>Albarracín</span>
           </h1>
 
-          <p className="fa-hero__subtitle">
-            Rompe la oscuridad
+          <p className="fa-hero__subtitle">Rompe la oscuridad</p>
+
+          <p className="fa-hero__role">
+            Cantautora, actriz y multiinstrumentista de Buenos Aires, Argentina
           </p>
 
           <div className="fa-hero__ctas">
-            <a className="btn btn-primary" href="#fechas" onClick={handleScroll("fechas")}>
+            <a
+              className="btn btn-primary"
+              href="#fechas"
+              onClick={handleScroll("fechas")}
+            >
               Ver fechas
             </a>
-            <a className="btn btn-secondary" href="#contacto" onClick={handleScroll("contacto")}>
+            <a
+              className="btn btn-secondary"
+              href="#contacto"
+              onClick={handleScroll("contacto")}
+            >
               Contacto
             </a>
           </div>

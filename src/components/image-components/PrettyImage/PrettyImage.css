@@ -1,6 +1,9 @@
 .pi {
   padding: 0 !important; /* apaga padding global de section */
   margin: clamp(22px, 4.5vw, 52px) 0 clamp(34px, 6vw, 80px);
+
+  /* por si algún padre tiene fondo/card raro */
+  background: transparent;
 }
 
 /* si bleed: ocupa todo el ancho real */
@@ -10,58 +13,88 @@
   margin: 0;
 }
 
-.pi__inner {
-  /* cuando NO hay bleed, le sumamos container desde JSX */
+/* ✅ blindaje por si tu .container global trae fondo/borde/sombra */
+.pi .container {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
 }
 
+/* -------------------------------------------------
+   WRAP: ahora se ajusta a la imagen (no al revés)
+   ------------------------------------------------- */
 .pi__wrap {
-  /* Layout: centra y limita tamaño de manera adaptable */
   position: relative;
-  display: grid;
+
+  /* ✅ en vez de “caja grande”, que abrace la imagen */
+  display: inline-grid;
   place-items: center;
-  width: min(100%, 1100px);
+
+  width: fit-content;
+  max-width: 100%;
+
+  height: auto;         /* ✅ clave: no fuerces vh acá */
+  min-height: 0;        /* ✅ elimina el “bloque” mínimo */
+  max-height: none;
+
   margin-inline: auto;
 
-  /* Alto adaptable: vos lo controlás con height */
-  height: var(--pi-h, 70vh);
-  max-height: 820px;
-  min-height: 280px;
-
-  /* IMPORTANTE: sin fondo, sin borde, sin caja visible */
   background: transparent;
+  border: 0;
+  border-radius: 0;
+
+  /* ✅ evita glitches de sombra/animación */
+  transform: translateZ(0);
+  isolation: isolate; /* overlay/sombra más predecible */
 }
 
-/* Imagen flotante */
+/* -------------------------------------------------
+   IMAGEN: controla tamaño y “float”
+   ------------------------------------------------- */
 .pi__img {
-  width: min(100%, var(--pi-w, 920px));
-  height: 100%;
   display: block;
-  margin-inline: auto;
+
+  /* ancho adaptable */
+  width: min(100%, var(--pi-w, 920px));
+  height: auto;
+
+  /* ✅ el “height” que pasás por props ahora limita la imagen */
+  max-height: min(var(--pi-h, 70vh), 820px);
+
   border-radius: var(--pi-radius, 22px);
 
-  /* Sin marco detrás: solo sombra + un toque pro */
+  /* flotante: solo sombra + contorno sutil */
   box-shadow:
     0 24px 80px rgba(0, 0, 0, 0.55),
     0 10px 26px rgba(0, 0, 0, 0.35);
-  transform: translateZ(0);
 
-  /* Para que se sienta “premium” sin caja */
   outline: 1px solid rgba(255, 255, 255, 0.06);
   outline-offset: -1px;
+
+  transform: translateZ(0);
 }
 
+/* Fit */
 .pi__img.is-contain {
   object-fit: contain;
 }
+
 .pi__img.is-cover {
   object-fit: cover;
+  /* Si querés “cover” con altura fija, la damos a la IMAGEN (no al wrap) */
+  height: min(var(--pi-h, 70vh), 820px);
 }
 
-/* Overlay opcional (si lo querés MUY suave) */
+/* -------------------------------------------------
+   Overlay opcional: ahora calza con la imagen
+   (no con una caja grande)
+   ------------------------------------------------- */
 .pi__overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
+
+  /* ✅ al tener wrap ajustado, esto coincide con la img */
   border-radius: var(--pi-radius, 22px);
   background: radial-gradient(
     60% 70% at 55% 35%,
@@ -70,10 +103,12 @@
   );
 }
 
-/* Reveal al aparecer */
+/* -------------------------------------------------
+   Animación de reveal (suave, sin mover layout)
+   ------------------------------------------------- */
 .pi__wrap.is-animated {
   opacity: 0;
-  transform: translateY(14px) scale(0.995);
+  transform: translateY(14px);
   transition:
     opacity 700ms ease,
     transform 800ms ease;
@@ -81,7 +116,7 @@
 
 .pi__wrap.is-animated.is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 /* Float sutil (solo cuando ya es visible) */
@@ -90,13 +125,8 @@
 }
 
 @keyframes pi-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
 }
 
 /* Accesibilidad */
@@ -110,38 +140,28 @@
   }
 }
 
-/* Responsive */
+/* -------------------------------------------------
+   Responsive: teléfonos/tablets
+   ------------------------------------------------- */
 @media (max-width: 768px) {
+  .pi {
+    margin: 18px 0 24px;
+  }
+
   .pi__wrap {
-    height: auto;       /* 🔥 clave */
-    min-height: 220px;     /* 🔥 clave */
     width: 100%;
+    justify-content: center;
   }
 
   .pi__img {
-    height: auto;  
-    width: 100%;      
-    max-height: 65vh;   
+    width: 100%;
+    max-height: 65svh; /* ✅ viewport height estable en móvil */
     border-radius: 18px;
   }
 }
 
-
 @media (max-width: 420px) {
-  .pi__wrap {
-    height: auto;      /* ✅ no fuerces vh */
-    min-height: 180px;     /* ✅ */
-  }
-
   .pi__img {
-    max-height: 56vh;  /* ✅ un límite un poco menor */
-  }
-}
-
-
-
-@media (max-width: 520px) {
-  .pi {
-    margin: 18px 0 24px; /* arriba | costados | abajo */
+    max-height: 56svh;
   }
 }

@@ -91,7 +91,7 @@ export default function Multimedia() {
               <div>
                 <h4 className="mm__liveTitle">Video en vivo</h4>
                 <p className="mm__liveSubtitle muted">
-                  Un fragmento con público (formato vertical).
+                  Un fragmento con público.
                 </p>
               </div>
 

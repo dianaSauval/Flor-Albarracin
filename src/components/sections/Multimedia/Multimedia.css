@@ -75,3 +75,70 @@
   background: var(--accent);
   box-shadow: 0 0 0 4px rgba(210, 162, 76, 0.14);
 }
+
+
+/* =========================
+   ✅ En vivo (video vertical)
+========================= */
+
+.mm__live {
+  margin-top: 28px;
+  width: 100%;
+  max-width: 640px;   /* controla el ancho del card en desktop */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* label variante */
+.mm__label--live {
+  margin-top: 6px;
+}
+
+.mm__dot--live {
+  background: var(--accent-2);
+  box-shadow: 0 0 0 4px rgba(241, 209, 138, 0.14);
+}
+
+/* card interna */
+.mm__liveCard {
+  padding: 18px;
+}
+
+.mm__liveTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.mm__liveTitle {
+  margin: 0 0 6px;
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.mm__liveSubtitle {
+  margin: 0;
+}
+
+/* Frame vertical: SIEMPRE tamaño “celular” */
+.mm__liveFrame {
+  width: min(92vw, 330px);  /* 👈 tope fijo */
+  margin: 0 auto;
+  aspect-ratio: 9 / 16;
+  display: grid;
+  place-items: center;
+}
+
+/* Video dentro del frame */
+.mm__liveVideo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: rgba(0, 0, 0, 0.35);
+}

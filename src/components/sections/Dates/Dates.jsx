@@ -24,17 +24,28 @@ function monthTitle(ym) {
   if (!ym) return "Fechas";
   const [y, m] = ym.split("-").map(Number);
   const dt = new Date(y, m - 1, 1);
-  return new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" }).format(dt);
+  return new Intl.DateTimeFormat("es-ES", {
+    month: "long",
+    year: "numeric",
+  }).format(dt);
 }
 
 export default function Dates() {
   const groups = useMemo(() => {
     const map = new Map();
+
     for (const it of dates) {
-      const key = it.month || "unknown";
-      if (!map.has(key)) map.set(key, []);
-      map.get(key).push(it);
+      // ✅ month puede ser string o array
+      const months = Array.isArray(it.month)
+        ? it.month
+        : [it.month || "unknown"];
+
+      for (const monthKey of months) {
+        if (!map.has(monthKey)) map.set(monthKey, []);
+        map.get(monthKey).push({ ...it, month: monthKey }); // normalizo month a string
+      }
     }
+
     return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b));
   }, []);
 
@@ -55,11 +66,17 @@ export default function Dates() {
 
               <ul className="dates__list" role="list">
                 {items.map((it, idx) => {
-                  const daysText = it.type === "weekly" ? formatDaysEs(it.days) : it.event || "";
+                  const daysText =
+                    it.type === "weekly"
+                      ? formatDaysEs(it.days)
+                      : it.event || "";
                   const hasDays = Boolean(daysText);
 
                   return (
-                    <li key={`${it.venue}-${it.time}-${idx}`} className="dates__item">
+                    <li
+                      key={`${it.venue}-${it.time}-${idx}`}
+                      className="dates__item"
+                    >
                       <a
                         className="dates__link"
                         href={it.mapUrl || "#"}
@@ -69,14 +86,26 @@ export default function Dates() {
                       >
                         <div className="dates__mainRow">
                           <span className="dates__main">
-                            {hasDays && <span className="dates__days">{daysText}</span>}
-                            {hasDays && <span className="dates__dot" aria-hidden="true"> · </span>}
+                            {hasDays && (
+                              <span className="dates__days">{daysText}</span>
+                            )}
+                            {hasDays && (
+                              <span className="dates__dot" aria-hidden="true">
+                                {" "}
+                                ·{" "}
+                              </span>
+                            )}
                             <span className="dates__time">{it.time}</span>
-                            <span className="dates__dash" aria-hidden="true"> — </span>
+                            <span className="dates__dash" aria-hidden="true">
+                              {" "}
+                              —{" "}
+                            </span>
                             <span className="dates__venue">{it.venue}</span>
                           </span>
 
-                          <span className="dates__arrow" aria-hidden="true">↗</span>
+                          <span className="dates__arrow" aria-hidden="true">
+                            ↗
+                          </span>
                         </div>
 
                         <div className="dates__subRow">
@@ -88,12 +117,19 @@ export default function Dates() {
                                 fill="currentColor"
                                 opacity="0.95"
                               />
-                              <circle cx="12" cy="10" r="2.6" fill="rgba(15,11,12,0.75)" />
+                              <circle
+                                cx="12"
+                                cy="10"
+                                r="2.6"
+                                fill="rgba(15,11,12,0.75)"
+                              />
                             </svg>
                           </span>
 
                           <span className="dates__addr">{it.addressShort}</span>
-                          <span className="dates__sep" aria-hidden="true">·</span>
+                          <span className="dates__sep" aria-hidden="true">
+                            ·
+                          </span>
                           <span className="dates__city">{it.city}</span>
                         </div>
                       </a>

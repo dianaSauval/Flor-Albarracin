@@ -7,7 +7,7 @@ export const socials = [
   },
 ];
 
-export const contactEmail = "floralbarracin2015@gmail.com";
+export const contactEmail = "booking@soyfloralbarracin.com";
 
 export const manager = {
   name: "Mánager Sergio Perata",

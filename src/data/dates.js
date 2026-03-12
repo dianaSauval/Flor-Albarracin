@@ -1,7 +1,7 @@
 export const dates = [
   {
     type: "weekly",
-    month: ["2026-02", "2026-03"],
+    month: ["2026-03"],
     days: ["Tue", "Wed"],
     time: "21:00",
     city: "Buenos Aires, AR",
@@ -16,7 +16,7 @@ export const dates = [
   },
   {
     type: "weekly",
-    month: ["2026-02"],
+    month: ["2026-03"],
     days: ["Thu"],
     time: "20:00",
     city: "Buenos Aires, AR",

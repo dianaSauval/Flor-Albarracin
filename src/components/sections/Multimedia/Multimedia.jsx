@@ -6,12 +6,19 @@ import liveVideo from "../../../assets/media/video-en-vivo.mp4";
 // (opcional) import posterLive from "../../../assets/media/poster-en-vivo.jpg";
 
 const youtubeItems = [
+   {
+    title: "CORAZÓN DE GUERRERA",
+    subtitle: "videoclip",
+    embedUrl: "https://www.youtube.com/embed/e29u3aCaa44",
+    href: "https://www.youtube.com/watch?v=e29u3aCaa44",
+    featured: true,
+  },
   {
     title: "TIGRESA",
     subtitle: "videoclip",
     embedUrl: "https://www.youtube.com/embed/LqrzomrjK9k",
     href: "https://www.youtube.com/watch?v=LqrzomrjK9k",
-    featured: true,
+    featured: false,
   },
   {
     title: "FLORES SIN PRISA",

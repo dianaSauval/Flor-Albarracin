@@ -97,7 +97,7 @@ export default function Footer() {
             © {year} · Sitio web desarrollado por{" "}
             <a
               className="footer__devLink"
-              href="https://github.com/dianaSauval"
+              href="https://dianasauvaldigital.com.ar/"
               target="_blank"
               rel="noreferrer"
             >

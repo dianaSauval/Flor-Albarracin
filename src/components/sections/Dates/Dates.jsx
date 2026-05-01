@@ -30,15 +30,27 @@ function monthTitle(ym) {
   }).format(dt);
 }
 
+function getCurrentMonthKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+
+  return `${year}-${month}`;
+}
+
 export default function Dates() {
   const groups = useMemo(() => {
     const map = new Map();
 
     for (const it of dates) {
       // ✅ month puede ser string o array
-      const months = Array.isArray(it.month)
+      const rawMonths = Array.isArray(it.month)
         ? it.month
         : [it.month || "unknown"];
+
+      const months = rawMonths.map((m) =>
+        m === "current" ? getCurrentMonthKey() : m,
+      );
 
       for (const monthKey of months) {
         if (!map.has(monthKey)) map.set(monthKey, []);

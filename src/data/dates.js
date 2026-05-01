@@ -1,7 +1,7 @@
 export const dates = [
   {
     type: "weekly",
-    month: ["2026-05"],
+    month: "current",
     days: ["Wed"],
     time: "21:00",
     city: "Buenos Aires, AR",

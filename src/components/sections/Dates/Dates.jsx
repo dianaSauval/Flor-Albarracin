@@ -81,48 +81,81 @@ export default function Dates() {
                   const daysText =
                     it.type === "weekly"
                       ? formatDaysEs(it.days)
-                      : it.event || "";
+                      : it.dateLabel || it.event || "";
+
                   const hasDays = Boolean(daysText);
+                  const isFeatured = Boolean(it.featured);
+
+                  const href = it.ticketUrl || it.mapUrl || "#";
+                  const isClickable = Boolean(it.ticketUrl || it.mapUrl);
 
                   return (
                     <li
                       key={`${it.venue}-${it.time}-${idx}`}
-                      className="dates__item"
+                      className={`dates__item ${isFeatured ? "dates__item--featured" : ""}`}
                     >
                       <a
-                        className="dates__link"
-                        href={it.mapUrl || "#"}
-                        target={it.mapUrl ? "_blank" : undefined}
-                        rel={it.mapUrl ? "noreferrer" : undefined}
-                        aria-label={`Abrir mapa: ${it.venue}`}
+                        className={`dates__link ${isFeatured ? "dates__link--featured" : ""}`}
+                        href={href}
+                        target={isClickable ? "_blank" : undefined}
+                        rel={isClickable ? "noreferrer" : undefined}
+                        aria-label={`Ver información: ${it.venue}`}
                       >
+                        {isFeatured && (
+                          <div className="dates__featuredBadge">
+                            <span>{it.note}</span>
+                          </div>
+                        )}
+
                         <div className="dates__mainRow">
                           <span className="dates__main">
-                            {hasDays && (
-                              <span className="dates__days">{daysText}</span>
+                            {isFeatured ? (
+                              <>
+                                <span className="dates__featuredTitle">
+                                  {it.event}
+                                </span>
+                                <span className="dates__featuredMeta">
+                                  {it.dateLabel} · {it.time} hs.
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                {hasDays && (
+                                  <span className="dates__days">
+                                    {daysText}
+                                  </span>
+                                )}
+                                {hasDays && (
+                                  <span
+                                    className="dates__dot"
+                                    aria-hidden="true"
+                                  >
+                                    {" "}
+                                    ·{" "}
+                                  </span>
+                                )}
+                                <span className="dates__time">{it.time}</span>
+                                <span
+                                  className="dates__dash"
+                                  aria-hidden="true"
+                                >
+                                  {" "}
+                                  —{" "}
+                                </span>
+                                <span className="dates__venue">{it.venue}</span>
+                              </>
                             )}
-                            {hasDays && (
-                              <span className="dates__dot" aria-hidden="true">
-                                {" "}
-                                ·{" "}
-                              </span>
-                            )}
-                            <span className="dates__time">{it.time}</span>
-                            <span className="dates__dash" aria-hidden="true">
-                              {" "}
-                              —{" "}
-                            </span>
-                            <span className="dates__venue">{it.venue}</span>
                           </span>
 
-                          <span className="dates__arrow" aria-hidden="true">
-                            ↗
-                          </span>
+                          {isClickable && (
+                            <span className="dates__arrow" aria-hidden="true">
+                              ↗
+                            </span>
+                          )}
                         </div>
 
                         <div className="dates__subRow">
                           <span className="dates__pin" aria-hidden="true">
-                            {/* pin simple inline */}
                             <svg viewBox="0 0 24 24" width="16" height="16">
                               <path
                                 d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z"
@@ -138,12 +171,22 @@ export default function Dates() {
                             </svg>
                           </span>
 
-                          <span className="dates__addr">{it.addressShort}</span>
+                          <span className="dates__addr">{it.venue}</span>
                           <span className="dates__sep" aria-hidden="true">
                             ·
                           </span>
                           <span className="dates__city">{it.city}</span>
                         </div>
+
+                        {isFeatured && (
+                          <div className="dates__featuredInfo">
+                            {it.priceLabel && <span>{it.priceLabel}</span>}
+                            {it.reservationPhone && (
+                              <span>Reservas: {it.reservationPhone}</span>
+                            )}
+                            {it.paymentInfo && <span>{it.paymentInfo}</span>}
+                          </div>
+                        )}
                       </a>
                     </li>
                   );

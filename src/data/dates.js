@@ -1,5 +1,24 @@
 export const dates = [
   {
+    type: "special",
+    featured: true,
+    month: "2026-05",
+    event: "Piano Bar",
+    dateLabel: "Jueves 21 de mayo",
+    time: "20:30",
+    city: "Montevideo, UY",
+    venue: "Baco Vino y Bistro",
+    addressShort: "Montevideo",
+    addressFull: "Baco Vino y Bistro, Montevideo, Uruguay",
+    mapUrl: "",
+    ticketUrl: "",
+    reservationText: "Reservá tu lugar",
+    reservationPhone: "097 017 841",
+    priceLabel: "Cubierto artístico $450",
+    paymentInfo: "Reserva previa por transferencia",
+    note: "Montevideo, Uruguay · Única función",
+  },
+  {
     type: "weekly",
     month: "current",
     days: ["Wed"],
@@ -13,5 +32,5 @@ export const dates = [
       "https://www.google.com/maps/place/Lucrecia+vinos/@-34.5829598,-58.4516693,17z/data=!3m1!4b1!4m6!3m5!1s0x95bcb5458d8911d7:0x7aaec8f95f9824d5!8m2!3d-34.5829642!4d-58.4490944!16s%2Fg%2F11n10k5c9c?hl=es&entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D",
     event: "Show",
     ticketUrl: "",
-  }
+  },
 ];

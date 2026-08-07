@@ -49,7 +49,7 @@ export default function Dates() {
         : [it.month || "unknown"];
 
       const months = rawMonths.map((m) =>
-        m === "current" ? getCurrentMonthKey() : m,
+        m === "current" ? getCurrentMonthKey() : m
       );
 
       for (const monthKey of months) {
@@ -171,7 +171,9 @@ export default function Dates() {
                             </svg>
                           </span>
 
-                          <span className="dates__addr">{it.venue}</span>
+                          <span className="dates__addr">
+                            {it.addressShort || it.venue}
+                          </span>
                           <span className="dates__sep" aria-hidden="true">
                             ·
                           </span>
